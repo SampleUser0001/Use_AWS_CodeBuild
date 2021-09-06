@@ -1,5 +1,11 @@
 version: 0.2
 
+# env:
+#   secrets-manager:
+#     someKey1_1: "sample/EqualsKeys:somekey1"
+#     someKey1_2: "sample/EqualsKeys:someKey1"
+#     someKey1_3: "sample/EqualsKeys:SomeKey1"
+
 phases:
   install:
     runtime-versions:
@@ -11,6 +17,10 @@ phases:
     commands:
       - echo Build started on `date`
       - echo $HOGE
+      - mvn clean compile exec:java -Dexec.mainClass="PrintSecretManager" -Dexec.args="'testvalue'"
+      - mvn clean compile exec:java -Dexec.mainClass="PrintSecretManager" -Dexec.args="'${someKey1_1}'"
+      - mvn clean compile exec:java -Dexec.mainClass="PrintSecretManager" -Dexec.args="'${someKey1_2}'"
+      - mvn clean compile exec:java -Dexec.mainClass="PrintSecretManager" -Dexec.args="'${someKey1_3}'"
       - mvn install
   post_build:
     commands:
